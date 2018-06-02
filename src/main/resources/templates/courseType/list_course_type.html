@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>课程类型管理</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}" />
+</head>
+<body style="padding:8px;">
+<h3 class="title">课程类型管理</h3>
+
+<form action="" method="POST">
+    <input type="hidden" name="_method" value="DELETE"/>
+</form>
+
+<table border="0" cellspacing="0">
+    <tr>
+        <th>编号</th>
+        <th>名称</th>
+        <th>操作</th>
+    </tr>
+    <tr class="type" th:each="courseType : ${page.list}">
+        <td th:text="${courseType.typeId}" nowrap></td>
+        <td id="typeName" th:text="${courseType.typeName}" nowrap></td>
+        <td nowrap>
+            <button class="update" th:href="@{/courseType/preUpdate/{typeId}(typeId=${courseType.typeId})}" >修改</button>
+            <button class="delete" th:href="@{/courseType/remove/{typeId}(typeId=${courseType.typeId})}">删除</button>
+        </td>
+    </tr>
+
+</table>
+
+<div id="pageInfo">
+    共[[${page.total}]]条,
+    <span th:if="${ ( page.pageNum - 1 ) * page.pageSize + 1 == page.total }">
+			当前显示第[[${page.total}]]条,
+	</span>
+    <span th:if="${ ( page.pageNum - 1 ) * page.pageSize + 1 != page.total }">
+			当前显示[[${page.startRow}]]-[[${page.endRow}]]条,
+	</span>
+    第[[${page.pageNum}]]/[[${page.pages}]]页
+    |
+    <a href="#" th:if="${page.pageNum > 1}"><span class="linkspan" id="one">首页</span>&nbsp;</a>
+    <a href="#" th:if="${page.pageNum > 1}"><span class="linkspan" id="two">上一页</span>&nbsp;</a>
+    <a href="#" th:if="${page.pageNum < page.pages}"><span class="linkspan" id="three">下一页</span>&nbsp;</a>
+    <a href="#" th:if="${page.pageNum != page.pages}"><span class="linkspan" id="four">末页</span>&nbsp;</a>
+    |
+    到<input type="text" id="pageNo" size=4 style="text-align:right;" onkeypress="onlynumber();"/> 页
+    <button class="linkspan" id="five" style="color:black;text-decoration:none;"> 跳 转 </button>
+</div>
+<script type="text/javascript" th:src="@{/js/jquery-3.1.1.min.js}"></script>
+<script th:inline="javascript">
+
+    $(function() {
+        //删除操作
+        $(".delete").click(function () {
+            var href = $(this).attr("href");
+            if (confirm("确定要删除吗?")) {
+                $("form:eq(0)").attr("action", href).submit();
+                return false;
+            }
+
+        });
+
+        $(".update").click(function () {
+            var href = $(this).attr("href");
+            $(location).attr("href", href);
+        });
+
+        //分页操作
+        $(".linkspan").click(function () {
+
+            var pageNo = [[${page.pageNum}]];
+            var totalPageNum = [[${page.pages}]];
+            var re = /^[0-9]+.?[0-9]*$/;
+
+            if (String($(this).attr("id")) == String("one"))
+                pageNo = 1;
+
+            if (String($(this).attr("id")) == String("two"))
+                pageNo = pageNo - 1;
+
+            if (String($(this).attr("id")) == String("three"))
+                pageNo = pageNo + 1;
+
+            if (String($(this).attr("id")) == String("four"))
+                pageNo = totalPageNum;
+
+            if (String($(this).attr("id")) == String("five")) {
+                var num = $.trim($("#pageNo").val());
+
+                if (!re.test(num)) {
+                    alert("输入的不是数字!");
+                    return;
+                }
+                pageNo = parseInt(num);
+                if (pageNo < 1 || pageNo > totalPageNum) {
+                    alert("页号超出范围，有效范围：[1-" + totalPageNum + "]!");
+                    return;
+                }
+
+            }
+
+            var href = "?pageNo=" + pageNo;
+            $(location).attr("href", href);
+            return false;
+
+        });
+    });
+
+</script>
+</body>
+</html>

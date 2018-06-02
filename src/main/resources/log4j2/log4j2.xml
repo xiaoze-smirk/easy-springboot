@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration>
+
+    <Properties>
+        <Property name="TEST_LOG">E:\IDEA\DocumentSystem\test-log</Property>
+        <Property name="TEST_LOG_FILE_NAME">test</Property>
+
+        <Property name="LOG_HOME">E:\IDEA\DocumentSystem\logs</Property>
+        <Property name="INFO_LOG_FILE_NAME">info</Property>
+    </Properties>
+
+    <!--先定义所有的appender -->
+    <Appenders>
+
+        <!--这个输出控制台的配置 -->
+        <console name="Console" target="SYSTEM_OUT">
+            <!--输出日志的格式 -->
+            <PatternLayout pattern="%d %-5p [%t] %C{2} (%F:%L) - %m%n" />
+        </console>
+
+        <!--文件会打印出所有信息，这个log每次运行程序会自动清空，由append(false表示每次自动清空)属性决定，这个也挺有用的，适合临时测试用 -->
+        <File name="Log" fileName="${TEST_LOG}/${TEST_LOG_FILE_NAME}.log" append="false">
+            <PatternLayout
+                    pattern="%d{HH:mm:ss.SSS} %-5level %class{36} %L %M - %msg%xEx%n" />
+        </File>
+
+        <!-- 这个会打印出所有的error及以下级别的信息，每次大小超过size，则这size大小的日志会自动存入按年份-月份建立的文件夹下面并进行压缩，作为存档-->
+        <RollingRandomAccessFile name="InfoLog"
+                                 fileName="${LOG_HOME}/${date:yyyy-MM-dd}/${INFO_LOG_FILE_NAME}-${date:HH.mm.ss}.log"
+                                 filePattern="${LOG_HOME}/${date:yyyy-MM-dd}/${INFO_LOG_FILE_NAME}.log.%d{yyyy-MM-dd}.gz">
+
+            <!--控制台只输出level及以上级别的信息（onMatch），其他的直接拒绝（onMismatch）-->
+            <ThresholdFilter level="debug" onMatch="ACCEPT" onMismatch="DENY"/>
+
+            <PatternLayout pattern="%d %-5p (%F:%L) - %m%n" />
+
+            <Policies>
+                <TimeBasedTriggeringPolicy />
+                <SizeBasedTriggeringPolicy size="100 MB" />
+            </Policies>
+
+            <!-- DefaultRolloverStrategy属性如不设置，则默认为最多同一文件夹下7个文件，这里设置了20 -->
+            <DefaultRolloverStrategy max="20" />
+
+        </RollingRandomAccessFile>
+
+    </Appenders>
+
+    <!--然后定义logger，只有定义了logger并引入的appender，appender才会生效-->
+    <loggers>
+
+        <logger name="org.mybatis.spring" level="info"/>
+        <logger name="com.alibaba.druid" level="info"/>
+        <logger name="org.springframework" level="info"/>
+        <logger name="springfox" level="info"/>
+        <logger name="org.thymeleaf" level="info"/>
+
+        <!--共有8个级别，按照从低到高为：all < trace < debug < info < warn < error < fatal < off-->
+        <root level="all">
+            <appender-ref ref="Console"/>
+            <appender-ref ref="Log"/>
+            <appender-ref ref="InfoLog"/>
+        </root>
+
+    </loggers>
+
+</Configuration>

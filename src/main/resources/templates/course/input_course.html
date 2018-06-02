@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>新增课程类型</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}" />
+</head>
+<body style="padding:8px;">
+    <h3 class="title">新增课程</h3>
+    <img id="textbookPic"
+         alt="默认教材封面"
+         width="300"
+         height="250"
+         style="float:right" th:src="@{/pics/default.jpg}" /><br/>
+    <form th:action="@{/course/create}" method="post"  enctype="multipart/form-data" th:object="${course}">
+        <div>
+            <span>课程编号:</span>
+            <input type="text" name="courseNo" >
+        </div>
+        <div>
+            <span>课程名称:</span>
+            <input type="text" name="courseName" >
+        </div>
+        <div>
+            <span>教材封面:</span>
+            <input id="coursetextbookpic" type="file" name="coursetextbookpic" size="40" />
+        </div>
+        <div>
+            <span>课程课时:</span>
+            <input type="text" name="courseHours" >
+        </div>
+        <div>
+            <span>课程学分:</span>
+            <input type="text" name="coursePoint" >
+        </div>
+        <div>
+            <span>课程类型:</span>
+            <select name="courseType.typeId">
+                <option>=请选择=</option>
+                <option th:each="list:${courseTypeList}" th:value="${list.typeId}" th:text="${list.typeName}"></option>
+            </select>
+        </div>
+        <div>
+            <span>课程状态:</span>
+            <input type="radio" name="courseStatus" th:value="O" checked>开放公选&nbsp;&nbsp;
+            <input type="radio" name="courseStatus" th:value="Z">暂不开放&nbsp;&nbsp;
+            <input type="radio" name="courseStatus" th:value="C">停止授课&nbsp;&nbsp;
+        </div>
+        <div>
+            <span>选课条件:</span>
+            <input type="checkbox" name="courseReqs" value="a" />大三以上
+            <input type="checkbox" name="courseReqs" value="b" />平均成绩80分
+            <input type="checkbox" name="courseReqs" value="c" />党员
+            <input type="checkbox" name="courseReqs" value="d" />未拖欠学费
+        </div>
+        <div>
+            <span>备注说明:</span>
+            <textarea name="courseMemo" rows="6" cols="60" ></textarea>
+        </div>
+
+        <div>
+            <input type="submit" value="开设课程"/>
+        </div>
+    </form>
+</body>
+<script type="text/javascript" th:src="@{/js/jquery-3.1.1.min.js}"></script>
+<script th:inline="javascript">
+    $(function() {
+        $("#coursetextbookpic").change(function (e) {
+            for (var i = 0; i < e.target.files.length; i++) {
+                var file = e.target.files.item(i);
+                var freader = new FileReader();
+                freader.readAsDataURL(file);
+                freader.onload = function (e) {
+                    var src = e.target.result;
+                    $("#textbookPic").attr("src", src);
+                }
+            }
+        });
+    });
+
+</script>
+</html>

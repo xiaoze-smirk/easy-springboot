@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>主页</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}" />
+</head>
+<body>
+<div id="header">
+    <div id="productName">课程系统</div>
+    <div></div>
+    <div style="float:right; margin:10px;">
+        操作员:[[${user.userName}]]&nbsp;
+        <a th:href="@{/security/logout}" title="点击离开系统" id="logout"><span style="cursor: pointer" class="linkspan">离开系统</span></a>
+    </div>
+</div>
+<div>
+    <div id="navigator">
+        <div class="menuitem">
+            <a th:href="@{/courseType/toInput}" target="contentFrame">新增课程类型</a>
+        </div>
+        <div class="menuitem">
+            <a th:href="@{/courseType/list}"  target="contentFrame">课程类型管理</a>
+        </div>
+        <div class="seperator"></div>
+        <div class="menuitem">
+            <a th:href="@{/course/toInput}"  target="contentFrame">开课登记</a>
+        </div>
+        <div class="menuitem">
+            <a th:href="@{/course/list}" target="contentFrame">课程管理</a>
+        </div>
+    </div>
+    <div id="content">
+        <iframe id="contentFrame" width="100%" scrolling="no" height="480px" frameborder="0" name="contentFrame" allowtransparency="true" th:src="@{/welcome.html}">
+        </iframe>
+    </div>
+</div>
+<div id="footer">
+    课程管理系统-测试版（版本:Beta1.0 Build:#1 2018-06-01）
+</div>
+<script type="text/javascript" th:src="@{/js/jquery-3.1.1.min.js}"></script>
+<script  th:inline="javascript">
+
+    $("#logout").click(function () {
+
+        if(confirm('您真的要离开系统吗？')){
+            $(location).attr("href",this.href());
+        }
+        return false;
+    });
+
+</script>
+</body>
+</html>

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>修改课程类型</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}" />
+    <script type="text/javascript" th:src="@{/js/jquery-3.1.1.min.js}"></script>
+</head>
+<body style="padding:8px;">
+    <h3 class="title">修改课程类型</h3>
+    <form th:action="@{/courseType/update}" method="post" th:object="${courseType}">
+        <input type="hidden" name="_method" value="PUT"/>
+        <input type="hidden" name="typeId" th:value="*{typeId}">
+        <div>
+            <span>课程类型名称:</span>
+            <input type="text" name="typeName" th:name="*{typeName}" placeholder="课程类型名称">
+        </div>
+        <div>
+            <input type="submit" value=" 确定 "/>
+        </div>
+    </form>
+</body>
+</html>

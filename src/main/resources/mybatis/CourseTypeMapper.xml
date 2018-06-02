@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 配置命名空间，区别名称 -->
+<mapper namespace="xiao.ze.demo.mapper.CourseTypeMapper">
+
+    <!-- SQL片段 -->
+    <sql id="cols">type_id,type_name</sql>
+
+    <!-- 中间，对象的属性和结果集的字段之间的对应关系 -->
+    <resultMap type="xiao.ze.demo.entity.CourseType" id="courseTypeRM">
+        <!-- 主键映射 -->
+        <id property="typeId" column="type_id"/>
+
+        <!-- 普通字段 property指实体的属性；column结果集的字段名称 -->
+        <result property="typeName" column="type_name"/>
+
+    </resultMap>
+
+    <!-- 新增 -->
+    <insert id="addCourseType" parameterType="xiao.ze.demo.entity.CourseType">
+        insert into tbl_course_type
+        (<include refid="cols"/>)
+        values
+        (#{typeId},#{typeName})
+
+    </insert>
+
+    <!-- 删除一条 -->
+    <delete id="removeCourseType" parameterType="int">
+        delete from tbl_course_type
+        where type_id = #{typeId}
+    </delete>
+
+    <!-- 修改 -->
+    <update id="updateCourseType" parameterType="xiao.ze.demo.entity.CourseType" >
+        update tbl_course_type
+        <set>
+            <if test="typeName!=null">type_name=#{typeName}</if>
+        </set>
+        where type_id = #{typeId}
+    </update>
+
+    <!-- 查询一个，按主键查询 -->
+    <select id="getCourseTypeById" parameterType="int" resultType="xiao.ze.demo.entity.CourseType" resultMap="courseTypeRM">
+        select<include refid="cols"/>from tbl_course_type
+        where type_id = #{typeId}
+    </select>
+
+    <!-- 查询全部-->
+    <select id="loadAll" resultType="xiao.ze.demo.entity.CourseType" resultMap="courseTypeRM">
+        select * from tbl_course_type
+        order by type_id
+    </select>
+
+</mapper>
