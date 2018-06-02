@@ -3,6 +3,7 @@ server:                  #配置server
     uri-encoding: UTF-8
   servlet:
     context-path: /ssm
+  port: 8090
 
 spring:
   datasource:
