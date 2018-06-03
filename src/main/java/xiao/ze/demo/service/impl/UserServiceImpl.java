@@ -21,7 +21,7 @@ public class UserServiceImpl implements UserService {
     public User get(String userNo) {
 
         User user = null;
-        user=userMapper.get(userNo);
+        user=userMapper.selectByPrimaryKey(userNo);
         return user;
 
     }
@@ -29,7 +29,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void addUser(User user) {
 
-        userMapper.addUser(user);
+        userMapper.insert(user);
 
     }
 

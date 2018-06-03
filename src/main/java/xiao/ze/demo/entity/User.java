@@ -1,14 +1,25 @@
 package xiao.ze.demo.entity;
 
 
+import org.springframework.stereotype.Component;
+
+import javax.persistence.Column;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import java.io.Serializable;
+
 /**
  * Created by xiaozemaliya on 2017/1/31.
  */
+@Component
+@Table(name="tbl_users")
+public class User implements Serializable{
 
-public class User extends ValueObject{
-
+    @Id
+    @Column(name="user_no")
     private String userNo;
 
+    @Column(name="user_name")
     private String userName;
 
     private String userPwd;

@@ -24,7 +24,7 @@ import java.util.Map;
  */
 @Controller
 @RequestMapping("/course")
-public class CourseController extends BaseController {
+public class CourseController {
 
     @Autowired
     private CourseService courseService;
@@ -149,18 +149,6 @@ public class CourseController extends BaseController {
 
     }
 
-    @ResponseBody
-    @PostMapping(value="/ajaxValidateCourseNo")
-    public String validateCourseNo(@RequestParam(value="courseNo",required=true) String courseNo){
-
-        if(courseService.loadCourseByNo(courseNo) != null){
-            return "1";
-        }else{
-            return "0";
-        }
-
-    }
-
     @GetMapping("/getPic/{courseNo}")
     public String getPic(@PathVariable("courseNo") String courseNo, HttpServletRequest request, HttpServletResponse response) throws Exception{
 
@@ -181,7 +169,6 @@ public class CourseController extends BaseController {
         sos.flush();
         sos.close();
 
-        //由于已经把界面数据发回去了，所以不需要struts做VIEW服务了。
         return null;
 
     }

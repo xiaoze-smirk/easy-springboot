@@ -2,11 +2,13 @@ package xiao.ze.demo.entity;
 
 import org.springframework.stereotype.Component;
 
+import java.io.Serializable;
+
 /**
  * Created by xiaozemaliya on 2017/1/31.
  */
 @Component
-public class Course extends ValueObject{
+public class Course implements Serializable{
 
     private String courseNo;
     private String courseName;

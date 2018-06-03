@@ -16,7 +16,7 @@ import java.util.Map;
  */
 @Controller
 @RequestMapping("/courseType")
-public class CourseTypeController extends BaseController {
+public class CourseTypeController {
 
     @Autowired
     private CourseTypeService courseTypeService ;

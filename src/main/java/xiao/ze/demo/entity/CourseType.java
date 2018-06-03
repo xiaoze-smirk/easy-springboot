@@ -2,13 +2,19 @@ package xiao.ze.demo.entity;
 
 import org.springframework.stereotype.Component;
 
+import javax.persistence.Id;
+import javax.persistence.Table;
+import java.io.Serializable;
+
 /**
  * Created by xiaozemaliya on 2017/1/31.
  */
+@Component
+@Table(name="tbl_course_type")
+public class CourseType implements Serializable{
 
-public class CourseType extends ValueObject{
 
-
+    @Id
     private Integer typeId;
     private String  typeName;
 

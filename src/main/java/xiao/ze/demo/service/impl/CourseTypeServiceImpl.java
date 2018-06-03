@@ -26,7 +26,7 @@ public class CourseTypeServiceImpl implements CourseTypeService {
     @Override
     public void addCourseType(CourseType courseType) {
 
-        courseTypeMapper.addCourseType(courseType);
+        courseTypeMapper.insert(courseType);
 
     }
 
@@ -37,28 +37,28 @@ public class CourseTypeServiceImpl implements CourseTypeService {
             courseMapper.removeCourseByTypeId(typeId);
         }
 
-        courseTypeMapper.removeCourseType(typeId);
+        courseTypeMapper.deleteByPrimaryKey(typeId);
 
     }
 
     @Override
     public void updateCourseType(CourseType courseType) {
 
-        courseTypeMapper.updateCourseType(courseType);
+        courseTypeMapper.updateByPrimaryKey(courseType);
 
     }
 
     @Override
     public CourseType getCourseTypeById(Integer typeId) {
 
-        return courseTypeMapper.getCourseTypeById(typeId);
+        return courseTypeMapper.selectByPrimaryKey(typeId);
 
     }
 
     @Override
     public List<CourseType> loadAll() {
 
-        return courseTypeMapper.loadAll();
+        return courseTypeMapper.selectAll();
 
     }
 

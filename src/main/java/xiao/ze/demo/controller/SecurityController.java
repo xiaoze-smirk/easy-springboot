@@ -13,7 +13,7 @@ import xiao.ze.demo.service.UserService;
  */
 @Controller
 @RequestMapping("/security")
-public class SecurityController extends BaseController{
+public class SecurityController {
 
     @Autowired
     private UserService userService ;
