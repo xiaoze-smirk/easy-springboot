@@ -13,10 +13,14 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Created by xiaozemaliya on 2017/1/31.
+ * CourseServiceImpl
+ *
+ * @author xiaoze
+ * @date 2018/6/3
+ *
  */
-@Transactional
-@Service("courseService")
+@Service
+@Transactional(rollbackFor = Exception.class)
 public class CourseServiceImpl implements CourseService {
 
     @Autowired
@@ -43,11 +47,11 @@ public class CourseServiceImpl implements CourseService {
         String[] courseReq = course.getCourseReqs();
         if (courseReq != null && courseReq.length > 0) {
 
-            courseMapper.updateCourse(course); // 操作
+            courseMapper.updateCourse(course);
 
         } else {
             course.setReqs("");
-            courseMapper.updateCourse(course); // 操作
+            courseMapper.updateCourse(course);
         }
 
     }
@@ -67,7 +71,7 @@ public class CourseServiceImpl implements CourseService {
     @Override
     public List<Course> loadScopedCourses(CourseQueryHelper helper) {
 
-        Map<String,Object> map = new HashMap<String,Object>();
+        Map<String,Object> map = new HashMap<>(16);
         map=getQueryHelper(helper);
 
         List<Course> list = courseMapper.loadScopedCourses(map);
@@ -81,7 +85,7 @@ public class CourseServiceImpl implements CourseService {
 
         byte[] textBookPic = null;
 
-        Course course = courseMapper.loadCourseByNo(courseNo); // 操作
+        Course course = courseMapper.loadCourseByNo(courseNo);
 
         textBookPic = course.getCourseTextbookPic();
 
@@ -91,7 +95,7 @@ public class CourseServiceImpl implements CourseService {
 
     private Map<String,Object> getQueryHelper(CourseQueryHelper helper) {
 
-        Map<String,Object> map = new HashMap<String,Object>();		//参数
+        Map<String,Object> map = new HashMap<>(16);
 
         if(helper.getQryCourseName()!=null){
             map.put("qryCourseName", helper.getQryCourseName());
@@ -105,7 +109,7 @@ public class CourseServiceImpl implements CourseService {
             map.put("qryStartPoint", helper.getQryStartPoint());
         }
 
-        if(helper.getQryCourseType()!=null&&helper.getQryCourseType()!=""){
+        if((helper.getQryCourseType()!=null)&&(!"".equals(helper.getQryCourseType()))){
             map.put("typeId", Integer.parseInt(helper.getQryCourseType()));
         }
 

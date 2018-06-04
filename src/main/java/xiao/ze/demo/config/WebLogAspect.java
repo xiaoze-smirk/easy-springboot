@@ -15,8 +15,13 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 /**
+ * WebLogAspect
+ *
+ * @author xiaoze
+ * @date 2018/6/3
+ *
  * 实现Web层的日志切面
- * Created by xiaozemaliya on 2017/4/3.
+ *
  */
 @Aspect
 @Component

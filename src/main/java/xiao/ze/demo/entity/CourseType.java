@@ -7,7 +7,11 @@ import javax.persistence.Table;
 import java.io.Serializable;
 
 /**
- * Created by xiaozemaliya on 2017/1/31.
+ * CourseType
+ *
+ * @author xiaoze
+ * @date 2018/6/3
+ *
  */
 @Component
 @Table(name="tbl_course_type")
@@ -16,6 +20,7 @@ public class CourseType implements Serializable{
 
     @Id
     private Integer typeId;
+
     private String  typeName;
 
 

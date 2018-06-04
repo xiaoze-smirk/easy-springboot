@@ -9,7 +9,11 @@ import xiao.ze.demo.entity.User;
 import xiao.ze.demo.service.UserService;
 
 /**
- * Created by xiaozemaliya on 2017/1/31.
+ * SecurityController
+ *
+ * @author xiaoze
+ * @date 2018/6/3
+ *
  */
 @Controller
 @RequestMapping("/security")

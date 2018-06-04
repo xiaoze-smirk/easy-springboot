@@ -1,13 +1,26 @@
 package xiao.ze.demo.utils;
 
 /**
- * Created by xiaozemaliya on 2017/1/31.
+ * CourseQueryHelper
+ *
+ * @author xiaoze
+ * @date 2018/6/3
+ *
  */
 public class CourseQueryHelper {
 
     private String qryCourseName;
-    private Double qryStartPoint; //查询学分的开始范围
-    private Double qryEndPoint;   //查询学分的结束范围
+
+    /**
+     * 查询学分的开始范围
+     */
+    private Double qryStartPoint;
+
+    /**
+     * 查询学分的结束范围
+     */
+    private Double qryEndPoint;
+
     private String qryCourseType;
 
     public String getQryCourseName() {

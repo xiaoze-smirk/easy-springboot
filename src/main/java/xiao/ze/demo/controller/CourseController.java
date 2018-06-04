@@ -20,7 +20,11 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Created by xiaozemaliya on 2017/1/31.
+ * CourseController
+ *
+ * @author xiaoze
+ * @date 2018/6/3
+ *
  */
 @Controller
 @RequestMapping("/course")
@@ -42,7 +46,7 @@ public class CourseController {
     }
 
     @GetMapping("/toInput")
-    public String toInput(Map<String, Object> map,Course course) throws Exception {
+    public String toInput(Map<String, Object> map,Course course) {
 
 
         map.put("courseTypeList", courseTypeService.loadAll());
@@ -80,7 +84,7 @@ public class CourseController {
 
     @RequestMapping("/list")
     public String list(@RequestParam(value="pageNo", required=false, defaultValue="1") String pageNoStr,
-                       Map<String, Object> map, CourseQueryHelper helper) throws Exception{
+                       Map<String, Object> map, CourseQueryHelper helper) {
 
         int pageNo = 1;
 
@@ -104,7 +108,7 @@ public class CourseController {
 
 
     @DeleteMapping(value="/remove/{courseNo}")
-    public String remove(@PathVariable("courseNo") String courseNo) throws Exception{
+    public String remove(@PathVariable("courseNo") String courseNo) {
 
         courseService.removeCourseByNo(courseNo);
 
@@ -113,7 +117,7 @@ public class CourseController {
     }
 
     @GetMapping(value="/preUpdate/{courseNo}")
-    public String preUpdate(@PathVariable("courseNo") String courseNo, Map<String, Object> map) throws Exception{
+    public String preUpdate(@PathVariable("courseNo") String courseNo, Map<String, Object> map) {
 
         map.put("course" ,courseService.loadCourseByNo(courseNo));
 
@@ -129,10 +133,6 @@ public class CourseController {
         //读取多段提交的文件数据，转成字节数组
         if(file.getBytes().length>0){
             course.setCourseTextbookPic(file.getBytes());
-        }
-
-        if(course.getCourseTextbookPic()!=null) {
-            System.out.println("有图片啊 啊    啊啊 啊啊 啊啊 啊啊啊 ");
         }
 
         try{

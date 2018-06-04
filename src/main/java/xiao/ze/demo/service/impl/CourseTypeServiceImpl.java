@@ -11,10 +11,14 @@ import xiao.ze.demo.service.CourseTypeService;
 import java.util.List;
 
 /**
- * Created by xiaozemaliya on 2017/1/31.
+ * CourseTypeServiceImpl
+ *
+ * @author xiaoze
+ * @date 2018/6/3
+ *
  */
 @Service
-@Transactional
+@Transactional(rollbackFor = Exception.class)
 public class CourseTypeServiceImpl implements CourseTypeService {
 
     @Autowired

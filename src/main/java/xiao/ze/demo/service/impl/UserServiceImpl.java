@@ -8,10 +8,14 @@ import xiao.ze.demo.mapper.UserMapper;
 import xiao.ze.demo.service.UserService;
 
 /**
- * Created by xiaozemaliya on 2017/1/31.
+ * UserServiceImpl
+ *
+ * @author xiaoze
+ * @date 2018/6/3
+ *
  */
 @Service
-@Transactional
+@Transactional(rollbackFor = Exception.class)
 public class UserServiceImpl implements UserService {
 
     @Autowired

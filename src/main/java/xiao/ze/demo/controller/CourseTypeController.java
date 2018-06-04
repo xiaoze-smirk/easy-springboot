@@ -12,7 +12,11 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Created by xiaozemaliya on 2017/1/31.
+ * CourseTypeController
+ *
+ * @author xiaoze
+ * @date 2018/6/3
+ *
  */
 @Controller
 @RequestMapping("/courseType")
@@ -33,8 +37,6 @@ public class CourseTypeController {
 
     /**
      * 创建新课程类型
-     * @return
-     * @throws Exception
      */
     @PostMapping(value="/create")
     public String create(CourseType courseType) {

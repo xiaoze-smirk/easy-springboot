@@ -5,22 +5,45 @@ import org.springframework.stereotype.Component;
 import java.io.Serializable;
 
 /**
- * Created by xiaozemaliya on 2017/1/31.
+ * Course
+ *
+ * @author xiaoze
+ * @date 2018/6/3
+ *
  */
 @Component
 public class Course implements Serializable{
 
     private String courseNo;
-    private String courseName;
-    private Integer courseHours;
-    private String courseStatus; /*单选互斥*/
-    private Double coursePoint;
-    private String[] courseReqs; /*多选*/
-    private String reqs;
-    private String courseMemo;
-    private byte[] courseTextbookPic; //教材封面
 
-    /*对一关系*/
+    private String courseName;
+
+    private Integer courseHours;
+
+    /**
+     * 单选互斥
+     */
+    private String courseStatus;
+
+    private Double coursePoint;
+
+    /**
+     * 多选
+     */
+    private String[] courseReqs;
+
+    private String reqs;
+
+    private String courseMemo;
+
+    /**
+     * 教材封面
+     */
+    private byte[] courseTextbookPic;
+
+    /**
+     * 对一关系
+     */
     private CourseType courseType;
 
     public String getCourseNo() {
