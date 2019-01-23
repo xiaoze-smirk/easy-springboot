@@ -31,5 +31,4 @@ create table tbl_users(
 insert into tbl_users values('000101','123456','王海涛');
 insert into tbl_users values('000102','123456','张明');
 
-alter table tbl_course add course_textbook_pic mediumblob;
 
