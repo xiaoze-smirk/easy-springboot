@@ -5,7 +5,7 @@
 这个项目用到的技术有:
 
 * SpringBoot2.0
-* 通用Mapper和Mybatis
+* MybatisPlus3.0
 * Thymeleaf
 * Mysql
 * Gradle
