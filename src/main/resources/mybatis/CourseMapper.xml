@@ -3,115 +3,31 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!-- 配置命名空间，区别名称 -->
-<mapper namespace="xiao.ze.demo.mapper.CourseMapper">
+<mapper namespace="com.xiaoze.course.mapper.CourseMapper">
 
     <!-- SQL片段 -->
-    <sql id="cols">course_no,
+    <sql id="cols">
+        course_no,
         course_name,
         course_hours,
         type_id,
         course_status,
-        course_reqs,
+        course_reqs as reqs,
         course_point,
         course_memo,
         course_textbook_pic
     </sql>
 
-    <!-- 中间，对象的属性和结果集的字段之间的对应关系 -->
-    <resultMap type="xiao.ze.demo.entity.Course" id="courseRM">
-        <!-- 主键映射 -->
-        <id property="courseNo" column="course_no"/>
-
-        <!-- 普通字段 property指实体的属性；column结果集的字段名称 -->
-        <result property="courseName" column="course_name"/>
-        <result property="courseHours" column="course_hours"/>
-        <result property="courseStatus" column="course_status"/>
-        <result property="reqs" column="course_reqs"/>
-        <result property="coursePoint" column="course_point"/>
-        <result property="courseMemo" column="course_memo"/>
-        <result property="courseTextbookPic" column="course_textbook_pic"/>
-
-
-        <!-- 对象关联 -->
-        <!-- 对一关系 -->
-        <association property="courseType" javaType="xiao.ze.demo.entity.CourseType">
-            <!-- 主键映射 -->
-            <id property="typeId" column="type_id"/>
-
-            <!-- 普通字段 property指实体的属性；column结果集的字段名称 -->
-            <result property="typeName" column="type_name"/>
-        </association>
-
-    </resultMap>
-
-    <!-- 新增 -->
-    <insert id="addCourse" parameterType="xiao.ze.demo.entity.Course">
-        insert into tbl_course
-        (<include refid="cols"/>)
-        values
-        (#{courseNo},#{courseName},#{courseHours},
-        #{courseType.typeId},#{courseStatus},#{reqs},
-        #{coursePoint},#{courseMemo},#{courseTextbookPic,jdbcType=BLOB})
-    </insert>
-
-    <!-- 根据主键删除一条 -->
-    <delete id="removeCourseByNo" parameterType="string">
-        delete from tbl_course
-        where course_no = #{courseNo}
-    </delete>
-
-    <!-- 根据typeId删除多条 -->
-    <delete id="removeCourseByTypeId" parameterType="int">
-        delete from tbl_course
-        where type_id = #{typeId}
-    </delete>
-
-    <!-- 修改 -->
-    <update id="updateCourse" parameterType="xiao.ze.demo.entity.Course" >
-        update tbl_course
-        <set>
-            <if test="courseName!=null">course_name=#{courseName},</if>
-            <if test="courseHours!=null">course_hours=#{courseHours},</if>
-            <if test="courseType!=null">type_id=#{courseType.typeId},</if>
-            <if test="courseStatus!=null">course_status=#{courseStatus},</if>
-            <if test="reqs!=null">course_reqs=#{reqs},</if>
-            <if test="coursePoint!=null">course_point=#{coursePoint},</if>
-            <if test="courseMemo!=null">course_memo=#{courseMemo},</if>
-            <if test="courseTextbookPic!=null">course_textbook_pic=#{courseTextbookPic,jdbcType=BLOB},</if>
-        </set>
-        where course_no = #{courseNo}
-    </update>
-
-    <!-- 查询一个，按主键查询 -->
-    <select id="loadCourseByNo" parameterType="string" resultType="xiao.ze.demo.entity.Course" resultMap="courseRM">
-        select
-        p.course_no,p.course_name,p.course_hours,p.course_status,
-        p.course_reqs,p.course_point,p.course_memo,p.course_textbook_pic,b.type_id,b.type_name
-        from tbl_course p
-        left join tbl_course_type b
-        on p.type_id=b.type_id
-        where p.course_no= #{courseNo}
-    </select>
-
-    <!-- 根据typeId查询 -->
-    <select id="loadCourseByTypeId" parameterType="int" resultType="string">
-        select course_no from tbl_course
-        where type_id= #{typeId}
-    </select>
-
     <!-- 带分页查询，注意Mybatis中如果有填写集合类型，只填写集合中元素的类型  -->
-    <select id="loadScopedCourses" parameterType="map" resultType="xiao.ze.demo.entity.Course" resultMap="courseRM">
-        select * from tbl_course p
-        left join tbl_course_type b
-        on p.type_id=b.type_id
+    <select id="getCourseList" resultType="com.xiaoze.course.entity.Course">
+        select
+            <include refid="cols"/>
+        from
+            tbl_course
         <where>
-            1=1
-            <if test="qryCourseName!=null">and p.course_name like concat(concat('%', #{qryCourseName}), '%')</if>
-            <if test="qryStartPoint!=null">and p.course_point >= #{qryStartPoint}</if>
-            <if test="qryEndPoint!=null">and p.course_point <![CDATA[ <= ]]> #{qryEndPoint}</if>
-            <if test="typeId!=null">and p.type_id = #{typeId}</if>
+            ${ew.sqlSegment}
         </where>
-        order by p.course_no
+
     </select>
 
 </mapper>

@@ -1,14 +1,15 @@
-package xiao.ze.demo.controller;
+package com.xiaoze.course.controller;
 
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.xiaoze.course.entity.Course;
+import com.xiaoze.course.service.CourseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import xiao.ze.demo.entity.CourseType;
-import xiao.ze.demo.service.CourseTypeService;
-
-import java.util.List;
+import com.xiaoze.course.entity.CourseType;
+import com.xiaoze.course.service.CourseTypeService;
 import java.util.Map;
 
 /**
@@ -24,6 +25,9 @@ public class CourseTypeController {
 
     @Autowired
     private CourseTypeService courseTypeService ;
+
+    @Autowired
+    private CourseService courseService ;
 
     /**
      * 访问课程类型输入界面
@@ -41,7 +45,7 @@ public class CourseTypeController {
     @PostMapping(value="/create")
     public String create(CourseType courseType) {
 
-        courseTypeService.addCourseType(courseType);
+        courseTypeService.save(courseType);
 
         return "redirect:/courseType/list";
 
@@ -62,12 +66,13 @@ public class CourseTypeController {
          * 第一个参数：第几页;
          * 第二个参数：每页获取的条数.
          */
-        PageHelper.startPage(pageNo, 3);
-        List<CourseType> courseTypeList = courseTypeService.loadAll();
+        Page<CourseType> page = new Page<>(pageNo,3);
+        IPage<CourseType> iPage = courseTypeService.page(page,
+                new LambdaQueryWrapper<CourseType>()
+                        .orderByAsc(CourseType::getTypeId)
+        );
 
-        PageInfo<CourseType> page=new PageInfo<CourseType>(courseTypeList);
-
-        map.put("page", page);
+        map.put("page", iPage);
 
         return "courseType/list_course_type";
     }
@@ -75,15 +80,15 @@ public class CourseTypeController {
     @DeleteMapping(value="/remove/{typeId}")
     public String remove(@PathVariable("typeId") Integer typeId) {
 
-        courseTypeService.removeCourseType(typeId);
+        courseTypeService.deleteCourseType(typeId);
 
         return "redirect:/courseType/list";
     }
 
     @GetMapping(value="/preUpdate/{typeId}")
     public String preUpdate(@PathVariable("typeId") Integer typeId, Map<String, Object> map) {
-        System.out.println(courseTypeService.getCourseTypeById(typeId));
-        map.put("courseType", courseTypeService.getCourseTypeById(typeId));
+
+        map.put("courseType", courseTypeService.getById(typeId));
 
         return "courseType/update_course_type";
     }
@@ -91,7 +96,7 @@ public class CourseTypeController {
     @PutMapping(value="/update")
     public String update(CourseType courseType) {
 
-        courseTypeService.updateCourseType(courseType);
+        courseTypeService.updateById(courseType);
 
         return "redirect:/courseType/list";
     }

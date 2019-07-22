@@ -12,11 +12,11 @@
 </form>
 <div id="queryArea">
     <form th:action="@{/course/list}" method="post" th:object="${helper}">
-        课程名称：<input type="text" name="qryCourseName" />&nbsp;&nbsp;
-        学分范围：<input type="text" name="qryStartPoint" size="6" /> - <input type="text" name="qryEndPoint" size="6" />&nbsp;&nbsp;
+        课程名称：<input type="text" name="qryCourseName" th:value="*{qryCourseName}" />&nbsp;&nbsp;
+        学分范围：<input type="text" name="qryStartPoint" size="6" th:value="*{qryStartPoint}" /> - <input type="text" name="qryEndPoint" size="6" th:value="*{qryEndPoint}" />&nbsp;&nbsp;
         课程类型：
-        <select name="qryCourseType">
-            <option value="">=请选择=</option>
+        <select name="qryCourseType" th:field="*{qryCourseType}">
+            <option th:if="${#strings.isEmpty(qryCourseType)}" value="">=请选择=</option>-->
             <option th:each="list:${courseTypeList}" th:value="${list.typeId}" th:text="${list.typeName}"></option>
         </select>
         <input type="submit" value="查询"/>
@@ -36,8 +36,8 @@
         <th>备注</th>
         <th>操作</th>
     </tr>
-    <tr th:each="course,iterStat : ${page.list}" stat>
-        <td th:text="${iterStat.index+1}" nowrap></td>
+    <tr th:each="course, iterStat : ${page.records}" stat>
+        <td th:text="${iterStat.index + 1}" nowrap></td>
         <td th:text="${course.courseNo}" nowrap></td>
         <td nowrap style="padding-top:10px;">
             [[${course.courseName}]]<br>
@@ -53,10 +53,10 @@
         </td>
         <td nowrap>
             <span th:each="req : ${course.courseReqs}">
-                <font th:if="${req eq 'a'}">大三以上</font>
-                <font th:if="${req eq 'b'}">平均成绩80分</font>
-                <font th:if="${req eq 'c'}">党员</font>
-                <font th:if="${req eq 'd'}">未拖欠学费</font>
+                <label th:if="${req eq 'a'}">大三以上</label>
+                <label th:if="${req eq 'b'}">平均成绩80分</label>
+                <label th:if="${req eq 'c'}">党员</label>
+                <label th:if="${req eq 'd'}">未拖欠学费</label>
             </span>
         </td>
         <td th:text="${course.courseMemo}" nowrap></td>
@@ -68,20 +68,29 @@
 </table>
 <div id="pageInfo">
     共[[${page.total}]]条,
-    <span th:if="${ ( page.pageNum - 1 ) * page.pageSize + 1 == page.total }">
+    <span th:if="${ ( page.current - 1 ) * page.size + 1 == page.total }">
 			当前显示第[[${page.total}]]条,
 	</span>
-    <span th:if="${ ( page.pageNum - 1 ) * page.pageSize + 1 != page.total }">
-			当前显示[[${page.startRow}]]-[[${page.endRow}]]条,
+    <span th:if="${ ( page.current - 1 ) * page.size + 1 != page.total }">
+        <span th:if="${ page.current * page.size >= page.total }">
+			当前显示[[${( page.current - 1 ) * page.size + 1}]]-[[${page.total}]]条,
+	    </span>
+		<span th:if="${ page.current * page.size < page.total }">
+			当前显示[[${( page.current - 1 ) * page.size + 1}]]-[[${page.current * page.size}]]条,
+	    </span>
 	</span>
-    第[[${page.pageNum}]]/[[${page.pages}]]页
+    第[[${page.current}]]/[[${(page.total % page.size == 0) ? (page.total / page.size) : (page.total / page.size + 1)}]]页
     |
-    <a href="#" th:if="${page.pageNum > 1}"><span class="linkspan" id="one">首页</span>&nbsp;</a>
-    <a href="#" th:if="${page.pageNum > 1}"><span class="linkspan" id="two">上一页</span>&nbsp;</a>
-    <a href="#" th:if="${page.pageNum < page.pages}"><span class="linkspan" id="three">下一页</span>&nbsp;</a>
-    <a href="#" th:if="${page.pageNum != page.pages}"><span class="linkspan" id="four">末页</span>&nbsp;</a>
+    <a href="#" th:if="${page.current > 1}"><span class="linkspan" id="one">首页</span>&nbsp;</a>
+    <a href="#" th:if="${page.current > 1}"><span class="linkspan" id="two">上一页</span>&nbsp;</a>
+    <a href="#" th:if="${page.current < ((page.total % page.size == 0) ? (page.total / page.size) : (page.total / page.size + 1))}">
+        <span class="linkspan" id="three">下一页</span>&nbsp;
+    </a>
+    <a href="#" th:if="${page.current != ((page.total % page.size == 0) ? (page.total / page.size) : (page.total / page.size + 1))}">
+        <span class="linkspan" id="four">末页</span>&nbsp;
+    </a>
     |
-    到<input type="text" id="pageNo" size=4 style="text-align:right;" onkeypress="onlynumber();"/> 页
+    到 <input type="text" id="pageNo" size=4 style="text-align:right;"/> 页
     <button class="linkspan" id="five" style="color:black;text-decoration:none;"> 跳 转 </button>
 </div>
 <script type="text/javascript" th:src="@{/js/jquery-3.1.1.min.js}"></script>
@@ -105,8 +114,8 @@
         //分页操作
         $(".linkspan").click(function () {
 
-            var pageNo = [[${page.pageNum}]];
-            var totalPageNum = [[${page.pages}]];
+            var pageNo = [[${page.current}]];
+            var totalPageNum = [[${(page.total % page.size == 0) ? (page.total / page.size) : (page.total / page.size + 1)}]];
             var re = /^[0-9]+.?[0-9]*$/;
 
             if (String($(this).attr("id")) == String("one"))

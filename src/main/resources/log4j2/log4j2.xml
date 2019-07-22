@@ -2,10 +2,10 @@
 <Configuration>
 
     <Properties>
-        <Property name="TEST_LOG">E:\IDEA\DocumentSystem\test-log</Property>
+        <Property name="TEST_LOG">E:\IDEA\person\easy-springboot\easy-springboot\test-log</Property>
         <Property name="TEST_LOG_FILE_NAME">test</Property>
 
-        <Property name="LOG_HOME">E:\IDEA\DocumentSystem\logs</Property>
+        <Property name="LOG_HOME">E:\IDEA\person\easy-springboot\easy-springboot\logs</Property>
         <Property name="INFO_LOG_FILE_NAME">info</Property>
     </Properties>
 
@@ -54,6 +54,8 @@
         <logger name="org.springframework" level="info"/>
         <logger name="springfox" level="info"/>
         <logger name="org.thymeleaf" level="info"/>
+        <logger name="com.baomidou.mybatisplus.core" level="info"/>
+        <logger name="com.baomidou.mybatisplus.extension.plugins.pagination" level="info"/>
 
         <!--共有8个级别，按照从低到高为：all < trace < debug < info < warn < error < fatal < off-->
         <root level="all">

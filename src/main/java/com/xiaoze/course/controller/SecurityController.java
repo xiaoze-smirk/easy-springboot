@@ -1,12 +1,13 @@
-package xiao.ze.demo.controller;
+package com.xiaoze.course.controller;
 
 import java.util.Map;
+
+import com.xiaoze.course.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import xiao.ze.demo.entity.User;
-import xiao.ze.demo.service.UserService;
+import com.xiaoze.course.entity.User;
 
 /**
  * SecurityController
@@ -22,7 +23,11 @@ public class SecurityController {
     @Autowired
     private UserService userService ;
 
-    @RequestMapping("/index")
+    /**
+     * 进入首页
+     * @return String
+     */
+    @GetMapping("/index")
     public String root() {
         return "index";
     }
@@ -37,10 +42,10 @@ public class SecurityController {
 
 
     @PostMapping(value="/login")
-    public String login(User user,Map<String, Object> map){
+    public String login(User user, Map<String, Object> map){
 
-        if(userService.get(user.getUserNo())!=null){
-            User user1=userService.get(user.getUserNo());
+        if(userService.getById(user.getUserNo()) != null){
+            User user1=userService.getById(user.getUserNo());
             if(user1.getUserPwd().equals(user.getUserPwd())){
                 map.put("user",user1);
                 return "main";

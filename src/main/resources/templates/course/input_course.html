@@ -35,7 +35,7 @@
         </div>
         <div>
             <span>课程类型:</span>
-            <select name="courseType.typeId">
+            <select name="typeId">
                 <option>=请选择=</option>
                 <option th:each="list:${courseTypeList}" th:value="${list.typeId}" th:text="${list.typeName}"></option>
             </select>
