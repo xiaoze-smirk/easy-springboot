@@ -4,24 +4,23 @@
     <meta charset="UTF-8">
     <title>登录页面</title>
     <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}" />
-    <script type="text/javascript" th:src="@{/js/jquery-3.1.1.min.js}"></script>
 </head>
 <body>
 <div>
     <div id="wrapper" style="text-align:center">
         <div id="f_title">用户登录</div><br>
-        <form th:action="@{/security/login}" method="post" th:object="${user}">
+        <form method="post" th:object="${user}">
             <div class="f_row">
                 <span>用户编号:</span>
-                <input type="text" class="form-control" name="userNo" placeholder="请输入账号">
+                <input id="userNo" type="text" class="form-control" name="userNo" placeholder="请输入账号">
             </div>
             <div class="f_row">
                 <span>登录密码:</span>
-                <input type="password" class="form-control" name="userPwd" placeholder="请输入密码">
+                <input id="userPwd" type="password" class="form-control" name="userPwd" placeholder="请输入密码">
             </div>
             <br>
             <div class="f_row">
-                <input type="submit" value=" 登 录 "/>
+                <input id="login-system" type="button" value=" 登 录 "/>
             </div>
         </form>
     </div>
@@ -29,5 +28,41 @@
 <div id="footer">
     课程管理系统-测试版（版本:Beta1.0 Build:#1 2018-06-01）
 </div>
+<script type="text/javascript" th:src="@{/js/jquery-3.1.1.min.js}"></script>
+<script th:inline="javascript">
+    $(function(){
+
+        $("#login-system").click(function () {
+
+            var url = [[@{/security/login}]];
+
+            var data = {};
+            $.each($('form').serializeArray(), function() {
+                data[this.name] = this.value;
+            });
+
+            $.ajax({
+                type: "post",
+                url: url,
+                data : JSON.stringify(data),
+                beforeSend : function(request) {
+                    request.setRequestHeader("Authorization", data.userNo + ':' + data.userPwd);
+                },
+                contentType:'application/json;charset=utf-8',
+                dataType:'json',
+                success:function(data) {
+                    if(data){
+                        $(location).attr('href', [[@{/security/mainController/}]] + $("#userPwd").val());
+                    }else{
+                        alert("账号密码不正确！")
+                    }
+                    return false
+                }
+            });
+
+        })
+
+    })
+</script>
 </body>
 </html>

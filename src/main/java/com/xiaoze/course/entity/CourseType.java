@@ -19,9 +19,16 @@ public class CourseType implements Serializable{
 
     private static final long serialVersionUID = 585761698369667604L;
 
+
+    /**
+     * 课程类型Id
+     */
     @TableId(type = IdType.AUTO)
     private Integer typeId;
 
+    /**
+     * 课程类型名称
+     */
     private String  typeName;
 
 }
