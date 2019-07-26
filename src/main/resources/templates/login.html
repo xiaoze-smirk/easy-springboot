@@ -52,7 +52,7 @@
                 dataType:'json',
                 success:function(data) {
                     if(data){
-                        $(location).attr('href', [[@{/security/mainController/}]] + $("#userPwd").val());
+                        $(location).attr('href', [[@{/security/mainController/}]] + $("#userNo").val());
                     }else{
                         alert("账号密码不正确！")
                     }
