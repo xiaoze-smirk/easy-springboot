@@ -2,10 +2,10 @@
 <Configuration>
 
     <Properties>
-        <Property name="TEST_LOG">E:\IDEA\person\easy-springboot\easy-springboot\test-log</Property>
+        <Property name="TEST_LOG">E:\idea\person\easy-springboot\easy-springboot\test-log</Property>
         <Property name="TEST_LOG_FILE_NAME">test</Property>
 
-        <Property name="LOG_HOME">E:\IDEA\person\easy-springboot\easy-springboot\logs</Property>
+        <Property name="LOG_HOME">E:\idea\person\easy-springboot\easy-springboot\logs</Property>
         <Property name="INFO_LOG_FILE_NAME">info</Property>
     </Properties>
 
