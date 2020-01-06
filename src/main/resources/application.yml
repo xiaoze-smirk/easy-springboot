@@ -6,6 +6,10 @@ server:                  #配置server
   port: 8090
 
 spring:
+  mvc:
+    hiddenmethod:
+      filter:
+        enabled: true
   datasource:
     druid:
       driver-class-name: com.mysql.cj.jdbc.Driver            # 数据库访问配置,主数据源，默认的

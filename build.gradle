@@ -1,5 +1,5 @@
 plugins {
-    id 'org.springframework.boot' version '2.1.6.RELEASE'
+    id 'org.springframework.boot' version '2.2.2.RELEASE'
     id 'java'
 }
 
@@ -27,19 +27,22 @@ dependencies {
 
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 
-    implementation 'com.baomidou:mybatis-plus-boot-starter:3.1.2'
+    implementation 'com.baomidou:mybatis-plus-boot-starter:3.3.0'
 
-    implementation 'com.alibaba:druid-spring-boot-starter:1.1.18'
+    implementation 'com.alibaba:druid-spring-boot-starter:1.1.21'
 
     implementation 'org.apache.commons:commons-lang3:3.9'
 
-    implementation 'mysql:mysql-connector-java:8.0.16'
+    implementation 'mysql:mysql-connector-java:8.0.18'
 
     implementation 'org.apache.commons:commons-collections4:4.4'
 
     implementation 'net.sourceforge.nekohtml:nekohtml:1.9.22'
 
-    compileOnly 'org.projectlombok:lombok:1.18.8'
+    annotationProcessor 'org.projectlombok:lombok:1.18.10'
+    compileOnly 'org.projectlombok:lombok:1.18.10'
+    testAnnotationProcessor 'org.projectlombok:lombok:1.18.10'
+    testCompileOnly 'org.projectlombok:lombok:1.18.10'
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }

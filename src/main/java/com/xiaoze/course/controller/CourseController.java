@@ -14,8 +14,6 @@ import com.xiaoze.course.service.CourseTypeService;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.Map;
 
